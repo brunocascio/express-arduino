@@ -9,19 +9,13 @@ var eArduino  = require("./libs/express-arduino");
 */
 eArduino.ready(function(express, arduino){
 	
-	try {
-		var servoFeed = arduino.addServo('servoFeed');
-		var servoHydrate = arduino.addServo('servoHydrate',{pin: 15});
-	} catch(err) {
-		console.error(err.name + ': ' +err.msg);
-		process.exit(1);
-	}
+	var servoFeed = arduino.addServo('servoFeed',{range:[0, 60], startAt:60});
 
 	var dispenser = {
 		feed: function(fn) {
-			servoFeed.step(180);
+			servoFeed.step(-60);
 			setTimeout(function(){
-				servoFeed.step(-180)
+				servoFeed.step(60)
 				fn();
 			}, 1000)
 		}

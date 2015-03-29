@@ -5,12 +5,14 @@ var five	= require('johnny-five'),
 var ExpressArduino = {
 	__rules: {
 		servo: {
-			attrs: ['id', 'pin', 'type', 'range', 'startAt', 'center', 'speed'],
+			attrs: ['id', 'pin', 'type', 'range', 'fps', 'invert', 'startAt', 'center', 'speed'],
 			defaults: {
 				id: 'defaultId',
 				pin: 10,
 				type: 'standard',
 				range: [0,180],
+				fps: 100,
+				invert: false,
 				startAt: 0,
 				center: 0,
 				speed: 5.0 //volts
@@ -85,7 +87,6 @@ var ExpressArduino = {
 		};
 
 		// parse servo options
-
 		var optionsServo = {};
 
 		if ( typeof options === 'object' ) {
@@ -99,19 +100,14 @@ var ExpressArduino = {
 			});
 		}
 
-		// instantiate new servo
-		var servo = new five.Servo({
-			id: name,							// User defined id
-			pin: optionsServo.pin,			// Which pin is it attached to?
-			type: optionsServo.type,		// Default: "standard". Use "continuous" for continuous rotation servos
-			range: optionsServo.range,		// Default: 0-180
-			startAt: optionsServo.startAt,	// Immediately move to a degree
-			center: optionsServo.center,	// overrides startAt if true and moves the servo to the center of the range
-			specs: {								
-				// Is it running at 5V or 3.3V?
-				speed: five.Servo.Continuous.speeds["@" + optionsServo.speed + 'V']
-			}
-		});
+		// set name as id
+		optionsServo.id = name;
+
+		// set speed 3.3V or 5.0V
+		optionsServo['specs'] = {speed: five.Servo.Continuous.speeds["@" + optionsServo.speed + 'V']};
+
+		// instantiate new servo with config
+		var servo = new five.Servo(optionsServo);
 
 		// push servo in servos array
 		this.__variables.__servos[name] = servo;
