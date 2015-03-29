@@ -1,0 +1,24 @@
+{
+  "author": "Bruno Cascio <brunocascio@gmail.com>",
+  "contributors": [],
+  "name": "darduino",
+  "description": "Arduino dispenser",
+  "version": "0.0.1",
+  "keywords": [
+    "arduino",
+    "serial"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brunocascio/darduino.git"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {
+    "express": "^4.12.3",
+    "johnny-five": "^0.8.47"
+  },
+  "devDependencies": {}
+}
